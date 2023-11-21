@@ -38,6 +38,7 @@ RUN mkdir -p /etc/yum.repos.d/bak/ \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime \
     && yum install -y rpm-build git wget \
     && yum install -y --exclude=ali-jdk ${JDK_VERSION}
+    && yum install -y ncurses-devel
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && curl -fsSL -o /tmp/apache-maven.tar.gz ${MAVEN_BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
