@@ -26,7 +26,7 @@ RUN yum clean all && yum makecache \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime \
     && localedef -i en_US -f UTF-8 en_US.UTF-8 \
     && yum update -y --exclude=ali-jdk \
-    && yum -y install ncurses-devel
+    && yum -y install ncurses-devel\
     && ln -s /usr/bin/python2 /usr/bin/python \
     && ln -s /usr/bin/pip2 /usr/bin/pip \
     && ln -s /usr/lib64/libtinfo.so.6.1 /usr/lib64/libtinfo.so.5 \

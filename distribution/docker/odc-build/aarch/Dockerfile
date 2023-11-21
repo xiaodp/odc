@@ -37,7 +37,7 @@ RUN mkdir -p /etc/yum.repos.d/bak/ \
     && yum install -y langpacks-en glibc-all-langpacks glibc-langpack-en \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime \
     && yum install -y rpm-build git wget \
-    && yum install -y --exclude=ali-jdk ${JDK_VERSION}
+    && yum install -y --exclude=ali-jdk ${JDK_VERSION} \
     && yum install -y ncurses-devel
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
