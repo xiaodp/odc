@@ -28,8 +28,8 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.oceanbase.odc.common.util.CloseableIterator;
 import com.oceanbase.odc.core.shared.constant.DialectType;
-import com.oceanbase.odc.core.sql.split.SqlCommentProcessor.SqlStatementIterator;
 
 public class SqlCommentProcessorTest {
 
@@ -64,8 +64,8 @@ public class SqlCommentProcessorTest {
         List<String> sqls;
         try (InputStream in =
                 this.getClass().getClassLoader().getResourceAsStream("sql/split/comment-processor-mysql-test.sql");
-                SqlStatementIterator iterator = SqlCommentProcessor.iterator(in, DialectType.OB_MYSQL, false, false,
-                        false, StandardCharsets.UTF_8)) {
+                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, DialectType.OB_MYSQL, false,
+                        false, false, StandardCharsets.UTF_8)) {
             sqls = IteratorUtils.toList(iterator);
         }
         SqlCommentProcessor processor = new SqlCommentProcessor(DialectType.OB_MYSQL, false, false, false);
@@ -82,8 +82,8 @@ public class SqlCommentProcessorTest {
         List<String> sqls;
         try (InputStream in =
                 this.getClass().getClassLoader().getResourceAsStream("sql/split/comment-processor-oracle-test.sql");
-                SqlStatementIterator iterator = SqlCommentProcessor.iterator(in, DialectType.OB_ORACLE, false, false,
-                        false, StandardCharsets.UTF_8)) {
+                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, DialectType.OB_ORACLE, false,
+                        false, false, StandardCharsets.UTF_8)) {
             sqls = IteratorUtils.toList(iterator);
         }
         SqlCommentProcessor processor = new SqlCommentProcessor(DialectType.OB_ORACLE, false, false, false);

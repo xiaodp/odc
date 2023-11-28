@@ -21,12 +21,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import com.oceanbase.odc.common.util.CloseableIterator;
 import com.oceanbase.odc.core.shared.constant.DialectType;
 
 import lombok.Getter;
@@ -97,7 +97,7 @@ public class SqlCommentProcessor {
 
     public SqlCommentProcessor() {}
 
-    public static SqlStatementIterator iterator(InputStream in, DialectType dialectType,
+    public static CloseableIterator<String> iterator(InputStream in, DialectType dialectType,
             boolean preserveFormat,
             boolean preserveSingleComments,
             boolean preserveMultiComments,
@@ -615,7 +615,7 @@ public class SqlCommentProcessor {
         }
     }
 
-    public static class SqlStatementIterator implements Iterator<String>, AutoCloseable {
+    private static class SqlStatementIterator implements CloseableIterator<String> {
         private final BufferedReader reader;
         private final StringBuffer buffer = new StringBuffer();
         private final LinkedList<String> holder = new LinkedList<>();
