@@ -87,8 +87,8 @@ public class SqlScriptImportJob extends AbstractJob {
         DialectType dialectType = transferConfig.getConnectionInfo().getConnectType().getDialectType();
         String charset = transferConfig.getEncoding().getAlias();
 
-        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(), dialectType, true,
-                true, true, Charset.forName(charset));
+        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(),
+                Charset.forName(charset), new SqlCommentProcessor(dialectType, true, true, true));
                 Connection conn = dataSource.getConnection();
                 Statement stmt = conn.createStatement()) {
             while (!canceled && !Thread.currentThread().isInterrupted() && iterator.hasNext()) {
@@ -136,8 +136,8 @@ public class SqlScriptImportJob extends AbstractJob {
         boolean firstLine = true;
         DialectType dialectType = transferConfig.getConnectionInfo().getConnectType().getDialectType();
         String charset = transferConfig.getEncoding().getAlias();
-        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(), dialectType, true,
-                true, true, Charset.forName(charset));
+        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(),
+                Charset.forName(charset), new SqlCommentProcessor(dialectType, true, true, true));
                 Connection conn = dataSource.getConnection();
                 Statement stmt = conn.createStatement()) {
             while (!Thread.currentThread().isInterrupted() && iterator.hasNext() && !canceled) {
@@ -180,8 +180,8 @@ public class SqlScriptImportJob extends AbstractJob {
 
         DialectType dialectType = transferConfig.getConnectionInfo().getConnectType().getDialectType();
         String charset = transferConfig.getEncoding().getAlias();
-        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(), dialectType, true,
-                true, true, Charset.forName(charset));
+        try (CloseableIterator<String> iterator = SqlCommentProcessor.iterator(input.openStream(),
+                Charset.forName(charset), new SqlCommentProcessor(dialectType, true, true, true));
                 Connection conn = dataSource.getConnection()) {
             List<String> insertionBuffer = new LinkedList<>();
             while (!Thread.currentThread().isInterrupted() && !canceled) {

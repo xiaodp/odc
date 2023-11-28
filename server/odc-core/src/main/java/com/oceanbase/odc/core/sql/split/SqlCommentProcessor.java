@@ -97,13 +97,8 @@ public class SqlCommentProcessor {
 
     public SqlCommentProcessor() {}
 
-    public static CloseableIterator<String> iterator(InputStream in, DialectType dialectType,
-            boolean preserveFormat,
-            boolean preserveSingleComments,
-            boolean preserveMultiComments,
-            Charset charset) {
-        return new SqlStatementIterator(in, dialectType, preserveFormat, preserveSingleComments, preserveMultiComments,
-                charset);
+    public static CloseableIterator<String> iterator(InputStream in, Charset charset, SqlCommentProcessor processor) {
+        return new SqlStatementIterator(in, charset, processor);
     }
 
     public static List<String> removeSqlComments(String originalSql,
@@ -620,19 +615,12 @@ public class SqlCommentProcessor {
         private final StringBuffer buffer = new StringBuffer();
         private final LinkedList<String> holder = new LinkedList<>();
         private final SqlCommentProcessor processor;
-        private final DialectType dialectType;
 
         private String current;
 
-        public SqlStatementIterator(InputStream input, DialectType dialectType,
-                boolean preserveFormat,
-                boolean preserveSingleComments,
-                boolean preserveMultiComments,
-                Charset charset) {
+        public SqlStatementIterator(InputStream input, Charset charset, SqlCommentProcessor processor) {
             this.reader = new BufferedReader(new InputStreamReader(input, charset));
-            this.dialectType = dialectType;
-            this.processor =
-                    new SqlCommentProcessor(dialectType, preserveFormat, preserveSingleComments, preserveMultiComments);
+            this.processor = processor;
         }
 
         @Override
@@ -663,16 +651,16 @@ public class SqlCommentProcessor {
                 }
                 String line;
                 while (holder.isEmpty() && (line = reader.readLine()) != null) {
-                    if (Objects.nonNull(dialectType) && dialectType.isMysql()) {
+                    if (processor.dialectType.isMysql()) {
                         processor.addLineMysql(holder, buffer, line);
-                    } else if (Objects.nonNull(dialectType) && dialectType.isOracle()) {
+                    } else if (processor.dialectType.isOracle()) {
                         processor.addLineOracle(holder, buffer, line);
                     }
                 }
                 if (!holder.isEmpty()) {
                     return holder.poll();
                 }
-                if (buffer.toString().trim().length() == 0) {
+                if (buffer.toString().trim().isEmpty()) {
                     return null;
                 }
                 String sql = buffer.toString();

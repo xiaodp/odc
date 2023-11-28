@@ -64,8 +64,8 @@ public class SqlCommentProcessorTest {
         List<String> sqls;
         try (InputStream in =
                 this.getClass().getClassLoader().getResourceAsStream("sql/split/comment-processor-mysql-test.sql");
-                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, DialectType.OB_MYSQL, false,
-                        false, false, StandardCharsets.UTF_8)) {
+                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, StandardCharsets.UTF_8,
+                        new SqlCommentProcessor(DialectType.OB_MYSQL, false, false, false))) {
             sqls = IteratorUtils.toList(iterator);
         }
         SqlCommentProcessor processor = new SqlCommentProcessor(DialectType.OB_MYSQL, false, false, false);
@@ -82,8 +82,8 @@ public class SqlCommentProcessorTest {
         List<String> sqls;
         try (InputStream in =
                 this.getClass().getClassLoader().getResourceAsStream("sql/split/comment-processor-oracle-test.sql");
-                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, DialectType.OB_ORACLE, false,
-                        false, false, StandardCharsets.UTF_8)) {
+                CloseableIterator<String> iterator = SqlCommentProcessor.iterator(in, StandardCharsets.UTF_8,
+                        new SqlCommentProcessor(DialectType.OB_ORACLE, false, false, false))) {
             sqls = IteratorUtils.toList(iterator);
         }
         SqlCommentProcessor processor = new SqlCommentProcessor(DialectType.OB_ORACLE, false, false, false);
