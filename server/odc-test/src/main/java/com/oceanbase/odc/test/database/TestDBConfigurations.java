@@ -83,6 +83,14 @@ public class TestDBConfigurations {
     private Properties getTestDBProperties(TestDBType type) {
         Properties properties = new Properties();
         properties.setProperty(TestDBConfiguration.DB_COMMANDLINE_KEY, TestProperties.getProperty(type.commandlineKey));
+        if (type.sysUserNameKey != null) {
+            properties.setProperty(TestDBConfiguration.DB_SYS_USERNAME_KEY,
+                    TestProperties.getProperty(type.sysUserNameKey));
+        }
+        if (type.sysUserPasswordKey != null) {
+            properties.setProperty(TestDBConfiguration.DB_SYS_PASSWORD_KEY,
+                    TestProperties.getProperty(type.sysUserPasswordKey));
+        }
         properties.setProperty(TestDBConfiguration.DB_TYPE_KEY, type.toString());
         return properties;
     }
